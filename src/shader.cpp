@@ -3,6 +3,15 @@
 #include <iostream>
 
 Shader::Shader(const std::string t_vertexPath, const std::string t_fragmentPath){
+    create(t_vertexPath, t_fragmentPath);
+}
+
+
+Shader::~Shader(){
+    deleteProgram();
+}
+
+void Shader::create(const std::string t_vertexPath, const std::string t_fragmentPath){
     // read file contents
     std::string vertexShaderSource = Shader::readFileContents(t_vertexPath);
     std::string fragmentShaderSource = Shader::readFileContents(t_fragmentPath);
@@ -17,6 +26,11 @@ Shader::Shader(const std::string t_vertexPath, const std::string t_fragmentPath)
 
 void Shader::use(){
     glUseProgram(ID);
+}
+
+void Shader::deleteProgram(){
+    std::cout << "Deleted Shader Program" << std::endl;
+    glDeleteProgram(ID);
 }
 
 void Shader::setUniform1i(std::string t_name, int t_value){

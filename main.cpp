@@ -4,8 +4,8 @@
 
 #include "shader.h"
 
-static const unsigned int WINDOW_WIDTH = 800;
-static const unsigned int WINDOW_HEIGHT = 600;
+static unsigned int WINDOW_WIDTH = 800;
+static unsigned int WINDOW_HEIGHT = 600;
 
 void errorCallback(int error, const char* description);
 void keyboardCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
@@ -46,10 +46,14 @@ int main(void){
 
     //create canvas
     unsigned int canvas = createCanvas();
-    //compile program
+    // create shader
     Shader shader("./assets/vertex.glsl", "./assets/fragment.glsl");
 
     while(!glfwWindowShouldClose(window)){
+
+        if(glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS){
+            shader.create("./assets/vertex.glsl", "./assets/fragment.glsl");
+        }
 
         //set uniforms
         //draw call here
@@ -57,6 +61,9 @@ int main(void){
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader.use();
+        shader.setUniform1f("iTime", glfwGetTime());
+        float resolution[3] = {(float)WINDOW_WIDTH, (float)WINDOW_HEIGHT, 0.0};
+        shader.setUniformVector3fv("iResolution", resolution);
         glBindVertexArray(canvas);
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
@@ -80,11 +87,13 @@ void keyboardCallback(GLFWwindow *window, int key, int scancode, int action, int
 
     if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS){
         glfwSetWindowShouldClose(window, GLFW_TRUE);
-    }
+    } 
 }
 void resizeCallback(GLFWwindow *window, int width, int height){
     (void)window;
     std::cout << "Window resized to: " << width << "x"  << height << std::endl;
+    WINDOW_WIDTH = width;
+    WINDOW_HEIGHT = height;
     glViewport(0, 0, width, height);
 }
 

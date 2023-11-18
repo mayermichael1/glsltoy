@@ -5,6 +5,7 @@
 class Shader{
 public:
     Shader(const std::string t_vertexPath, const std::string t_fragmentPath);
+    ~Shader();
 
     void setUniform1i(std::string t_name, int value);
     void setUniformMatrix4fv(std::string t_name, const float *t_values);
@@ -12,6 +13,8 @@ public:
     void setUniform1f(std::string t_name, float value);
 
     void use();
+    void deleteProgram();
+    void create(const std::string t_vertexPath, const std::string t_fragmentPath);
 private:
     unsigned int ID;
 private:
