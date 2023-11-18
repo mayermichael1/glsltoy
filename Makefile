@@ -8,6 +8,7 @@ CPPFLAGS :=  -Iinclude/
 
 OBJECTS := $(BUILD_DIR)/main.o
 OBJECTS += $(BUILD_DIR)/glad.o
+OBJECTS += $(BUILD_DIR)/shader.o
 # add objects here like this:
 # OBJECTS += $(BUILD_DIR)/object.o
 
@@ -23,6 +24,9 @@ $(BUILD_DIR)/main.o: main.cpp
 
 $(BUILD_DIR)/glad.o: src/glad.c include/glad/glad.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c src/glad.c -o $(BUILD_DIR)/glad.o
+
+$(BUILD_DIR)/shader.o: src/shader.cpp include/shader.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c src/shader.cpp -o $(BUILD_DIR)/shader.o
 
 # Build all Objects here
 # $(BUILD_DIR)/object.o: src/object.cpp include/object.h
