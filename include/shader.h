@@ -10,6 +10,7 @@ public:
     void setUniform1i(std::string t_name, int value);
     void setUniformMatrix4fv(std::string t_name, const float *t_values);
     void setUniformVector3fv(std::string t_name, const float *t_values);
+    void setUniformVector4fv(std::string t_name, const float *t_values);
     void setUniform1f(std::string t_name, float value);
 
     void use();

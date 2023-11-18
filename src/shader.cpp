@@ -53,6 +53,11 @@ void Shader::setUniformVector3fv(std::string t_name, const float *t_values){
     glUniform3fv(glGetUniformLocation(ID, t_name.c_str()), 1, t_values);
 }
 
+void Shader::setUniformVector4fv(std::string t_name, const float *t_values){
+    use();
+    glUniform4fv(glGetUniformLocation(ID, t_name.c_str()), 1, t_values);
+}
+
 unsigned int Shader::compileShader(GLenum shaderType, const char *shaderSource){ 
     unsigned int shader;
     shader = glCreateShader(shaderType);

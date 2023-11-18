@@ -6,10 +6,13 @@
 
 static unsigned int WINDOW_WIDTH = 800;
 static unsigned int WINDOW_HEIGHT = 600;
+static float MOUSE_X = 0;
+static float MOUSE_Y = 0;
 
 void errorCallback(int error, const char* description);
 void keyboardCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
 void resizeCallback(GLFWwindow *window, int width, int height);
+void mouseCallback(GLFWwindow *window, double x, double y);
 unsigned int createCanvas();
 
 int main(void){
@@ -40,7 +43,7 @@ int main(void){
     glfwSetFramebufferSizeCallback(window, resizeCallback);
     glfwSetKeyCallback(window, keyboardCallback);
     glfwSetErrorCallback(errorCallback);
-
+    glfwSetCursorPosCallback(window, mouseCallback);
 
     resizeCallback(window, WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -64,6 +67,11 @@ int main(void){
         shader.setUniform1f("iTime", glfwGetTime());
         float resolution[3] = {(float)WINDOW_WIDTH, (float)WINDOW_HEIGHT, 0.0};
         shader.setUniformVector3fv("iResolution", resolution);
+
+        float mouse[4] = {(float)MOUSE_X, (float)MOUSE_Y, 0.0f, 0.0f};
+        mouse[2] =  (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) ? 1.0 : 0.0;
+        shader.setUniformVector4fv("iMouse", mouse);
+
         glBindVertexArray(canvas);
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
@@ -122,4 +130,12 @@ unsigned int createCanvas(){
     glEnableVertexAttribArray(2);
 
     return objectID;
+}
+   
+
+void mouseCallback(GLFWwindow *window, double xpos, double ypos){
+    (void)window;
+
+    MOUSE_X = xpos;
+    MOUSE_Y = ypos;
 }
