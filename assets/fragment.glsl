@@ -1,1 +1,1 @@
-cube.glsl
+sin_wave.glsl
